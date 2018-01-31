@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tsw.networkrepair.problem_list.dao.ProblemDao" >
+
+    <resultMap id="treepath" type="com.tsw.networkrepair.problem_list.model.TreePathModel">
+        <id property="id" column="id"></id>
+        <result property="ancestor" column="ancestor"></result>
+        <result property="descendant" column="descendant"></result>
+    </resultMap>
+
+    <resultMap id="comment" type="com.tsw.networkrepair.problem_list.model.CommentModel">
+        <id property="id" column="id"></id>
+        <result property="title" column="title"></result>
+        <result property="body" column="body"></result>
+    </resultMap>
+
+    <select id="select" resultMap="comment" >
+        SELECT * FROM comment AS c INNER JOIN treepath t ON c.id=t.descendant WHERE t.ancestor= #{id}
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM treepath WHERE ancestor=#{id} OR descendant=#{id}
+    </delete>
+
+    <delete id="deleteone" parameterType="java.lang.Integer">
+        DELETE FROM treepath WHERE  descendant=#{id} And ancestor =#{ancestor_id}
+    </delete>
+
+    <insert id="insert" parameterType="java.lang.Integer">
+         INSERT INTO treepath(ancestor,descendant) VALUES (#{ancestor_id},#{id})
+    </insert>
+
+
+</mapper>
+

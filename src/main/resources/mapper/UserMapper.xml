@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tsw.networkrepair.user.dao.UserDao" >
+
+    <resultMap id="userResult" type="com.tsw.networkrepair.user.Model.UserModel">
+        <id column="id" property="id" ></id>
+        <result column="username" property="username" ></result>
+        <result column="password" property="password" ></result>
+        <result column="name" property="name" ></result>
+        <result column="level" property="level" ></result>
+        <result column="create_time" property="create_time"></result>
+        <result column="last_time" property="last_time"></result>
+        <result column="ip" property="ip"></result>
+    </resultMap>
+
+    <select id="selectAll" resultMap="userResult">
+        SELECT * FROM user
+    </select>
+
+    <insert id="insertInfo" >
+        INSERT INTO user VALUE(#{id},#{username},#{password},#{name},#{level},#{create_dt},#{last_dt},#{ip})
+    </insert>
+
+    <update id="upDateInfo" >
+        UPDATE user SET username=#{username},password=#{password},name=#{name},level=#{level},create_dt=#{create_dt},last_dt=#{last_dt},ip=#{ip} WHERE id=#{id}
+    </update>
+
+    <delete id="deleteInfo">
+        DELETE FROM user WHERE id=#{id}
+    </delete>
+
+    <select id="selectUserByName" resultMap="userResult">
+        SELECT * FROM user WHERE name LIKE #{name}
+    </select>
+
+    <select id="login" resultMap="userResult">
+        SELECT * FROM user WHERE username=#{username} AND password=#{password}
+    </select>
+
+    <select id="selectUsername" resultType="String">
+        SELECT username FROM user WHERE username=#{username}
+    </select>
+
+    <select id="selectById" resultMap="userResult">
+        SELECT * FROM user WHERE id=#{id}
+    </select>
+
+
+</mapper>
